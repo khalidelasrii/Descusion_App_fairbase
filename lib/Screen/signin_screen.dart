@@ -1,15 +1,16 @@
-import 'package:descusion_app_fairebase/Widgets/mybuton.dart';
 import 'package:flutter/material.dart';
 
-class RegestrationScreen extends StatefulWidget {
-  static const String screenrout = 'RegestrationScreen';
-  const RegestrationScreen({super.key});
+import '../Widgets/mybuton.dart';
+
+class SignInScreen extends StatefulWidget {
+  static const String screenroute = 'SignInScreen';
+  const SignInScreen({super.key});
 
   @override
-  State<RegestrationScreen> createState() => _RegestrationScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _RegestrationScreenState extends State<RegestrationScreen> {
+class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +20,7 @@ class _RegestrationScreenState extends State<RegestrationScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(vertical: 15),
               child: SizedBox(
                 height: 150,
                 child: Image.asset('images/logo.png'),
@@ -38,10 +39,10 @@ class _RegestrationScreenState extends State<RegestrationScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue, width: 1),
+                    borderSide: BorderSide(color: Colors.orange, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.orange, width: 2),
+                    borderSide: BorderSide(color: Colors.blue, width: 2),
                   ),
                 ),
               ),
@@ -62,10 +63,10 @@ class _RegestrationScreenState extends State<RegestrationScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue, width: 1),
+                    borderSide: BorderSide(color: Colors.orange, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.orange, width: 2),
+                    borderSide: BorderSide(color: Colors.blue, width: 2),
                   ),
                 ),
               ),
@@ -73,7 +74,7 @@ class _RegestrationScreenState extends State<RegestrationScreen> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Mybuton(
-                  color: Colors.blue, onPressed: () {}, title: 'Regestration'),
+                  color: Colors.orange, onPressed: () {}, title: 'Sing in'),
             )
           ],
         ),

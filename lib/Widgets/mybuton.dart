@@ -15,10 +15,10 @@ class Mybuton extends StatelessWidget {
     return Material(
       elevation: 6,
       color: color,
-      borderRadius: BorderRadius.circular(15),
+      borderRadius: BorderRadius.circular(8),
       child: MaterialButton(
         onPressed: () => onPressed,
-        minWidth: 300,
+        minWidth: 350,
         height: 42,
         child: Text(
           title,

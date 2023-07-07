@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../Widgets/mybuton.dart';
 
 class WelcomScreen extends StatelessWidget {
+  static const String screenRout = 'WelcomScreen';
   const WelcomScreen({Key? key}) : super(key: key);
 
   @override

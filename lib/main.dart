@@ -1,7 +1,9 @@
+import 'package:descusion_app_fairebase/Screen/regestration_screen.dart';
+import 'package:descusion_app_fairebase/Screen/welcom_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'Screen/regestration_screen.dart';
-import 'Screen/welcom_screen.dart';
+import 'Screen/chat_screen.dart';
+import 'Screen/signin_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,9 +17,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Descusion App',
       theme: ThemeData(
-        primarySwatch: Colors.amber,
+        primarySwatch: Colors.orange,
       ),
-      home: RegestrationScreen(),
+      debugShowCheckedModeBanner: false,
+      //home: SignInScreen(),
+      initialRoute: WelcomScreen.screenRout,
+      routes: {
+        WelcomScreen.screenRout: (context) => WelcomScreen(),
+        SignInScreen.screenroute: (context) => SignInScreen(),
+        RegestrationScreen.screenrout: (context) => RegestrationScreen(),
+        ChatScreen.screenroute: (context) => ChatScreen(),
+      },
     );
   }
 }
