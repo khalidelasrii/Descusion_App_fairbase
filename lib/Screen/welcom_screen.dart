@@ -1,3 +1,5 @@
+import 'package:descusion_app_fairebase/Screen/regestration_screen.dart';
+import 'package:descusion_app_fairebase/Screen/signin_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../Widgets/mybuton.dart';
@@ -32,7 +34,9 @@ class WelcomScreen extends StatelessWidget {
             Mybuton(
               color: const Color.fromARGB(228, 255, 82, 2),
               title: 'Sign In',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, SignInScreen.screenroute);
+              },
             ),
             const SizedBox(
               height: 8,
@@ -40,7 +44,9 @@ class WelcomScreen extends StatelessWidget {
             Mybuton(
               color: const Color.fromARGB(227, 27, 96, 245),
               title: 'Sign Up',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, RegestrationScreen.screenrout);
+              },
             ),
           ],
         ),

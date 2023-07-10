@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.descusion_app_fairebase">
+
    <application
         android:label="descusion_app_fairebase"
         android:name="${applicationName}"

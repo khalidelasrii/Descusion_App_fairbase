@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "842581874938",
+    "project_id": "discusionapp-6ddd2",
+    "storage_bucket": "discusionapp-6ddd2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842581874938:android:a0b0b994d8ff30e2b21143",
+        "android_client_info": {
+          "package_name": "com.khalid.descusion_app_fairebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "842581874938-7rs0tgc5nar4comco8hbhfe4u0pjpkll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANq1MVynK02EK59LaAH7dEWfFXPVvSOfk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "842581874938-7rs0tgc5nar4comco8hbhfe4u0pjpkll.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

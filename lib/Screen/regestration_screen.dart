@@ -73,7 +73,7 @@ class _RegestrationScreenState extends State<RegestrationScreen> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Mybuton(
-                  color: Colors.blue, onPressed: () {}, title: 'Regestration'),
+                  color: Colors.blue, onPressed: () {}, title: 'Sing Up'),
             )
           ],
         ),
