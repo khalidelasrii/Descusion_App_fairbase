@@ -1,3 +1,5 @@
+import 'package:descusion_app_fairebase/Screen/chat_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../Widgets/mybuton.dart';
@@ -11,6 +13,9 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  final _auth = FirebaseAuth.instance;
+  late String email;
+  late String password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +35,9 @@ class _SignInScreenState extends State<SignInScreen> {
               height: 40,
               width: 350,
               child: TextField(
-                onChanged: (valeur) {},
+                onChanged: (valeur) {
+                  email = valeur;
+                },
                 decoration: const InputDecoration(
                   hintText: 'Email',
                   contentPadding:
@@ -54,7 +61,9 @@ class _SignInScreenState extends State<SignInScreen> {
               height: 40,
               width: 350,
               child: TextField(
-                onChanged: (valeur) {},
+                onChanged: (valeur) {
+                  password = valeur;
+                },
                 decoration: const InputDecoration(
                   hintText: 'Password',
                   contentPadding:
@@ -74,7 +83,21 @@ class _SignInScreenState extends State<SignInScreen> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Mybuton(
-                  color: Colors.orange, onPressed: () {}, title: 'Sing in'),
+                  color: Colors.orange,
+                  onPressed: () async {
+                    // print("email:$email");
+                    // print("password:$password");
+                    try {
+                      final user = await _auth.signInWithEmailAndPassword(
+                          email: email, password: password);
+                      if (user != null) {
+                        Navigator.pushNamed(context, ChatScreen.screenroute);
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
+                  title: 'Sing in'),
             )
           ],
         ),

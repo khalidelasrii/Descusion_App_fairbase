@@ -1,4 +1,6 @@
+import 'package:descusion_app_fairebase/Screen/chat_screen.dart';
 import 'package:descusion_app_fairebase/Widgets/mybuton.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RegestrationScreen extends StatefulWidget {
@@ -10,6 +12,9 @@ class RegestrationScreen extends StatefulWidget {
 }
 
 class _RegestrationScreenState extends State<RegestrationScreen> {
+  final _auth = FirebaseAuth.instance;
+  late String email;
+  late String password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +34,10 @@ class _RegestrationScreenState extends State<RegestrationScreen> {
               height: 40,
               width: 350,
               child: TextField(
-                onChanged: (valeur) {},
+                onChanged: (valeur) {
+                  email = valeur;
+                },
+                keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   hintText: 'Email',
                   contentPadding:
@@ -53,7 +61,10 @@ class _RegestrationScreenState extends State<RegestrationScreen> {
               height: 40,
               width: 350,
               child: TextField(
-                onChanged: (valeur) {},
+                onChanged: (valeur) {
+                  password = valeur;
+                },
+                obscureText: true,
                 decoration: const InputDecoration(
                   hintText: 'Password',
                   contentPadding:
@@ -73,7 +84,20 @@ class _RegestrationScreenState extends State<RegestrationScreen> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Mybuton(
-                  color: Colors.blue, onPressed: () {}, title: 'Sing Up'),
+                  color: Colors.blue,
+                  onPressed: () async {
+                    // print("email:$email");
+                    // print("password:$password");
+                    try {
+                      final newUser =
+                          await _auth.createUserWithEmailAndPassword(
+                              email: email, password: password);
+                      Navigator.pushNamed(context, ChatScreen.screenroute);
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
+                  title: 'Sing Up'),
             )
           ],
         ),
