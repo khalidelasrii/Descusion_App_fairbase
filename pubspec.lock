@@ -185,7 +185,7 @@ packages:
     source: hosted
     version: "2.0.1"
   matcher:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: matcher
       sha256: "6501fbd55da300384b768785b83e5ce66991266cec21af89ab9ae7f5ce1c4cbb"

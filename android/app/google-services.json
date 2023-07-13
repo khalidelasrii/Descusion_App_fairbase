@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:842581874938:android:a0b0b994d8ff30e2b21143",
+        "mobilesdk_app_id": "1:842581874938:android:a3c2bc99e9985a11b21143",
         "android_client_info": {
-          "package_name": "com.khalid.descusion_app_fairebase"
+          "package_name": "com.example.descusion_app_fairebase"
         }
       },
       "oauth_client": [
