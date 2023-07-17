@@ -35,6 +35,14 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  void messagesStream()async{
+   await for(var snapshot in  _firestore.collection('messages').snapshots()){
+    for(var message in snapshot.docs){
+      print(message.data());
+    } 
+   }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -58,8 +66,7 @@ class _ChatScreenState extends State<ChatScreen> {
           actions: [
             IconButton(
                 onPressed: () {
-                  _auth.signOut();
-                  Navigator.pushNamed(context, WelcomScreen.screenRout);
+                  messagesStream();
                 },
                 icon: const Icon(
                   Icons.close,
@@ -69,7 +76,22 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         backgroundColor: Colors.white70,
         body: Column(children: [
-          Expanded(child: Container()),
+          Expanded(child: StreamBuilder<QuerySnapshot>(
+            stream: _firestore.collection('messages').snapshots(),
+            builder: (context, snapshot) {
+              List<Text> messageWidgets = [];
+              if(!snapshot.hasData){
+return const Center(child: CircularProgressIndicator(backgroundColor: Colors.amber),) ;             }
+              final messages = snapshot.data!.docs;
+              for(var message in messages){
+                final messageText = message.get('text');
+                final messageSender = message.get('sender');
+                final messageWidget = Text('$messageText - $messageSender');
+                messageWidgets.add(messageWidget);
+              }
+              return Expanded(child: ListView(children: messageWidgets,));
+            },
+          )),
           Container(
             height: 80,
             decoration: const BoxDecoration(
