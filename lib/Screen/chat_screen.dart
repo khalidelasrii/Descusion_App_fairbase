@@ -1,7 +1,15 @@
 import 'package:descusion_app_fairebase/Screen/welcom_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+  
+
+
+
+  final _firestore = FirebaseFirestore.instance;
+  late User signedInUser;
+
 
 class ChatScreen extends StatefulWidget {
   static const String screenroute = 'ChatScreen';
@@ -12,10 +20,9 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-  late User signedInUser;
   String? messageText;
+  final textEditingController = TextEditingController();
 
   @override
   void initState() {
@@ -28,7 +35,6 @@ class _ChatScreenState extends State<ChatScreen> {
       final user = _auth.currentUser;
       if (user != null) {
         signedInUser = user;
-        print(signedInUser.email);
       }
     } catch (e) {
       print(e);
@@ -66,7 +72,8 @@ class _ChatScreenState extends State<ChatScreen> {
           actions: [
             IconButton(
                 onPressed: () {
-                  messagesStream();
+                  _auth.signOut(); 
+                  Navigator.pushNamed(context, WelcomScreen.screenRout);
                 },
                 icon: const Icon(
                   Icons.close,
@@ -76,36 +83,21 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         backgroundColor: Colors.white70,
         body: Column(children: [
-          Expanded(child: StreamBuilder<QuerySnapshot>(
-            stream: _firestore.collection('messages').snapshots(),
-            builder: (context, snapshot) {
-              List<Text> messageWidgets = [];
-              if(!snapshot.hasData){
-return const Center(child: CircularProgressIndicator(backgroundColor: Colors.amber),) ;             }
-              final messages = snapshot.data!.docs;
-              for(var message in messages){
-                final messageText = message.get('text');
-                final messageSender = message.get('sender');
-                final messageWidget = Text('$messageText - $messageSender');
-                messageWidgets.add(messageWidget);
-              }
-              return Expanded(child: ListView(children: messageWidgets,));
-            },
-          )),
+          const Expanded(child:MessageStreamBuilder() ),
           Container(
             height: 80,
             decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Colors.orange,
                     Colors.blue,
+                    Colors.green,
                   ],
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.bottomRight,
+                  begin: Alignment.topLeft,
+                  end: Alignment.topRight,
                 ),
                 border: Border(
                     top: BorderSide(
-                  color: Colors.orange,
+                  color: Colors.green,
                   width: 2,
                 ))),
             child: Row(
@@ -113,6 +105,7 @@ return const Center(child: CircularProgressIndicator(backgroundColor: Colors.amb
               children: [
                 Expanded(
                   child: TextField(
+                    controller: textEditingController,
                       onChanged: (valeur) {
                         messageText = valeur;
                       },
@@ -126,8 +119,9 @@ return const Center(child: CircularProgressIndicator(backgroundColor: Colors.amb
                 ),
                 TextButton(
                     onPressed: () {
+                      textEditingController.clear();
                       _firestore.collection('messages').add(
-                          {'text': messageText, 'sender': signedInUser.email});
+                          {'text': messageText, 'sender': signedInUser.email,'time':FieldValue.serverTimestamp()});
                     },
                     child: const Text(
                       'Send',
@@ -139,5 +133,64 @@ return const Center(child: CircularProgressIndicator(backgroundColor: Colors.amb
         ]),
       ),
     );
+  }
+}
+
+class MessageStreamBuilder extends StatelessWidget {
+  const MessageStreamBuilder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+            stream: _firestore.collection('messages').orderBy('time').snapshots(),
+            builder: (context, snapshot) {
+              List<MessageView> messageWidgets = [];
+              if(!snapshot.hasData){
+return const Center(child: CircularProgressIndicator(backgroundColor: Colors.amber),) ;             }
+              final messages = snapshot.data!.docs;
+              for(var message in messages){
+                final messageText = message.get('text');
+                final messageSender = message.get('sender');
+                final currentUser = signedInUser.email;
+                final messageWidget = MessageView(sender: messageSender,text: messageText,isMe:currentUser ==messageSender ,);
+                messageWidgets.add(messageWidget);
+              }
+              return Padding(padding: const EdgeInsets.symmetric(horizontal: 9),child: Expanded(child: ListView(children: messageWidgets,)));
+            },
+          );
+  }
+}
+
+class MessageView  extends StatelessWidget {
+  const MessageView ({super.key,  
+     this.text, this.sender,required this.isMe});
+  final String? text;
+  final String? sender;
+  final bool isMe; 
+  
+  @override
+  Widget build(BuildContext context) {
+    return Padding( 
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: 
+
+      Column(
+        crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        children:[
+          Text('$sender',style: const TextStyle(fontSize: 10,color: Color.fromARGB(255, 7, 87, 153)),),
+          Material(
+          borderRadius: isMe ?
+          const BorderRadius.only(
+          topLeft: Radius.circular(20),
+          bottomLeft:Radius.circular(20),
+          bottomRight: Radius.circular(20),) : const BorderRadius.only(
+          topRight: Radius.circular(20),
+          bottomLeft:Radius.circular(20),
+          bottomRight: Radius.circular(20),),
+          color: isMe ? Colors.green.shade600 : Colors.blue.shade300 ,
+          elevation: 6,
+          child:Padding(padding: const EdgeInsets.all(8),child: Text('$text ',style: const TextStyle(fontSize: 16,color: Colors.white),)),
+             ),] 
+      ),);
   }
 }
